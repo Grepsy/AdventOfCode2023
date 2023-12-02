@@ -14,9 +14,9 @@
          select kv.Key + 1).Sum();
 
     public static int Part2() =>
-       (from line in File.ReadAllLines("day2.txt")
-        let maxs = from match in Regex.Matches(line, @"(\d+) (\w+)")
-                   group match by match.Groups[2].Value into g
-                   select g.Max(x => int.Parse(x.Groups[1].Value))
-        select maxs.Aggregate((a, b) => a * b)).Sum();
+        (from line in File.ReadAllLines("day2.txt")
+         let maxs = from match in Regex.Matches(line, @"(\d+) (\w+)")
+                    group match by match.Groups[2].Value into g
+                    select g.Max(x => int.Parse(x.Groups[1].Value))
+         select maxs.Aggregate((a, b) => a * b)).Sum();
 }
