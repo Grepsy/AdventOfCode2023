@@ -1,7 +1,14 @@
 ﻿using static System.Console;
 
-//WriteLine(Day1.Part1());
-//WriteLine(Day1.Part2());
+var day = DateTimeOffset.Now.Day;
+var type = Type.GetType($"Day{day}")!;
 
-WriteLine(Day2.Part1());
-WriteLine(Day2.Part2());
+var result1 = type.GetMethod("Part1")!.Invoke(null, null);
+var result2 = type.GetMethod("Part2")!.Invoke(null, null);
+
+WriteLine(
+   $"""
+    Day: {day}
+    Part 1: {result1}
+    Part 2: {result2}
+    """);
