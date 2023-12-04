@@ -1,6 +1,9 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Text.Json;
-using MoreLinq;
+
+public static class Parse {
+    public static int Int(this Match match) => int.Parse(match.Value);
+}
 
 public static class LogExtensions {
     public static T Log<T>(this T obj, string prefix = "") {
