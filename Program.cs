@@ -1,14 +1,14 @@
-﻿using static System.Console;
+﻿using System.Diagnostics;
+using static System.Console;
 
 var day = DateTimeOffset.Now.Day;
 var type = Type.GetType($"Day{day}")!;
 
+WriteLine($"Day: {day}");
+var sw = Stopwatch.StartNew();
 var result1 = type.GetMethod("Part1")!.Invoke(null, null);
-var result2 = type.GetMethod("Part2")!.Invoke(null, null);
+WriteLine($"Part 1: {result1} took {sw.ElapsedMilliseconds} ms");
 
-WriteLine(
-   $"""
-    Day: {day}
-    Part 1: {result1}
-    Part 2: {result2}
-    """);
+sw.Restart();
+var result2 = type.GetMethod("Part2")!.Invoke(null, null);
+WriteLine($"Part 2: {result2} took {sw.ElapsedMilliseconds} ms");

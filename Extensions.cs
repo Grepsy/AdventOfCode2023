@@ -3,6 +3,7 @@ using System.Text.Json;
 
 public static class Parse {
     public static int Int(this Match match) => int.Parse(match.Value);
+    public static long Long(this Match match) => long.Parse(match.Value);
 }
 
 public static class LogExtensions {
@@ -70,5 +71,13 @@ public static class EnumerableExtensions {
         a = list.ElementAt(0);
         b = list.ElementAt(1);
         c = list.ElementAt(2);
+    }
+}
+
+public static class Range {
+    public static IEnumerable<long> Long(long start, long count) {
+        for (var i = start; i < start + count; i++) {
+            yield return i;
+        }
     }
 }
