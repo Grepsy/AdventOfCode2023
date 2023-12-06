@@ -17,6 +17,8 @@ public static class LogExtensions {
         return list;
     }
 
+    public static T[] Log<T>(this T[] list) => Log(list.AsEnumerable()).ToArray();
+
     public static T Dump<T>(this T obj, bool indent = false) {
         if (obj is ITuple) {
             Console.WriteLine(obj);
