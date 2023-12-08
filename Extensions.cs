@@ -69,6 +69,21 @@ public static class EnumerableExtensions {
         c = list[2];
     }
 
+    public static void Deconstruct<T>(this T[] list, out T a, out T b, out T c, out T d) {
+        a = list[0];
+        b = list[1];
+        c = list[2];
+        d = list[3];
+    }
+
+    public static void Deconstruct<T>(this T[] list, out T a, out T b, out T c, out T d, out T e) {
+        a = list[0];
+        b = list[1];
+        c = list[2];
+        d = list[3];
+        e = list[4];
+    }
+
     public static void Deconstruct<T>(this IEnumerable<T> list, out T a, out T b, out T c) {
         a = list.ElementAt(0);
         b = list.ElementAt(1);

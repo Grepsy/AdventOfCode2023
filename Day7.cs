@@ -1,42 +1,73 @@
 ﻿public static partial class Day7 {
     public static int Part1() {
         var map = "2233445566778899AEKDQCJBTA".Batch(2).ToDictionary(k => k[0], v => v[1]);
-        Regex[] types = [
-            new(@"([1-9A-E])\1{4}"), // 0 Five
-            new(@"([1-9A-E])\1{3}"), // 1 Four
-            new(@"(?:([1-9A-E])\1{1}([1-9A-E])\2{2}|([1-9A-E])\3{2}([1-9A-E])\4{1})"), // 2 FullHouse
-            new(@"([1-9A-E])\1{2}"), // 3 Three
-            new(@"([1-9A-E])\1.?([1-9A-E])\2"), // 4 TwoPair
-            new(@"([1-9A-E])\1"), // 5 Pair
-            new(@"([1-9A-E])") // 6 High
-        ];
-
         return (from line in File.ReadLines("day7.txt")
                 let split = line.Split(" ").ToArray()
                 let hand = new string(split[0].Select(x => map[x]).ToArray())
-                let value = Array.FindIndex(types, x => x.IsMatch(new(hand.Order().ToArray())))
-                orderby value descending, hand
+                orderby HandValue(hand) descending, hand
                 select int.Parse(split[1])).Index().Sum(x => (x.Key + 1) * x.Value);
     }
 
     public static int Part2() {
         var map = "J02233445566778899AEKDQCTB".Batch(2).ToDictionary(k => k[0], v => v[1]);
-        Regex[] types = [
-            new(@"(?:([0-9A-E])\1{4}|0([0-9A-E])\2{3}|00([0-9A-E])\3{2}|000([0-9A-E])\4{1}|0000[0-9A-E])"), // 0 Five
-            new(@"(?:([0-9A-E])(?:0|\1){3}|0([0-9A-E])\2{2}|00([0-9A-E])\3|000[0-9A-E]|0.([0-9A-E])\4{2})"), // 1 Four
-            new(@"(?:([1-9A-E])\1{1}([1-9A-E])\2{2}|([1-9A-E])\3{2}([1-9A-E])\4{1}|0[1-9A-E]([1-9A-E])\5{2}|00([1-9A-E])\6{2}|0([1-9A-E])\7{1}([1-9A-E])\8{1}|0([1-9A-E])\11{2}[1-9A-E])"), // 2 FullHouse
-            new(@"(?:([0-9A-E])(?:0|\1){2}|0([0-9A-E])\2|00[0-9A-E]|0.([0-9A-E])\3|0.{2}([0-9A-E])\4)"), // 3 Three
-            new(@"(?:([1-9A-E])\1.?([1-9A-E])\2|0.*?([1-9A-E])\3)"), // 4 TwoPair
-            new(@"(?:([0-9A-E])\1|0[1-9A-E])"), // 5 Pair
-            new(@"([1-9A-E])") // 6 High
-        ];
-
         return (from line in File.ReadLines("day7.txt")
                 let split = line.Split(" ").ToArray()
                 let hand = new string(split[0].Select(x => map[x]).ToArray())
-                let value = Array.FindIndex(types, x => x.IsMatch(new(hand.Order().ToArray())))
-                orderby value descending, hand
-                let test = $"{hand} {new string(hand.Order().ToArray()).Replace("0", "_")} -> {value}".Log()
+                orderby HandValue(hand) descending, hand
                 select int.Parse(split[1])).Index().Sum(x => (x.Key + 1) * x.Value);
+    }
+
+    public static int HandValue(string hand) => hand switch {
+        "00000" => 0,
+        _ when Match(hand, 5) => 0,
+        _ when Match(hand, 4) => 1,
+        _ when Match(hand, 3, 2) => 2,
+        _ when Match(hand, 3) => 3,
+        _ when Match(hand, 2, 2) => 4,
+        _ when Match(hand, 2) => 5,
+        _ => 6
+    };
+
+    public static bool Match(string hand, params int[] counts) {
+        var groups = hand.Where(x => x != '0').GroupBy(x => x).Select(x => x.Count()).OrderDescending().ToArray();
+        groups[0] += hand.Count(x => x == '0');
+        return counts.SequenceEqual(groups.Take(counts.Length));
+    }
+
+    private static void Test() {
+        HandValue("11111").Log("0");
+        HandValue("01111").Log("0");
+        HandValue("00111").Log("0");
+        HandValue("00011").Log("0");
+        HandValue("00001").Log("0");
+        HandValue("00000").Log("0");
+
+        HandValue("1111A").Log("1");
+        HandValue("A1111").Log("1");
+        HandValue("0AAA1").Log("1");
+        HandValue("01AAA").Log("1");
+
+        HandValue("AAA11").Log("2");
+        HandValue("11AAA").Log("2");
+        HandValue("0AABB").Log("2");
+
+        HandValue("12AAA").Log("3");
+        HandValue("1AAA2").Log("3");
+        HandValue("AAA12").Log("3");
+        HandValue("0AA12").Log("3");
+        HandValue("00A12").Log("3");
+        HandValue("01AA2").Log("3");
+        HandValue("012AA").Log("3");
+
+        HandValue("1AABB").Log("4");
+        HandValue("AABB1").Log("4");
+
+        HandValue("AA123").Log("5");
+        HandValue("1AA23").Log("5");
+        HandValue("12AA3").Log("5");
+        HandValue("123AA").Log("5");
+        HandValue("01234").Log("5");
+
+        HandValue("12345").Log("6");
     }
 }
