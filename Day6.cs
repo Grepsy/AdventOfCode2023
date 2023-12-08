@@ -28,5 +28,4 @@
 
         return wins.Count();
     }
-
 }
