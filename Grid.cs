@@ -58,7 +58,7 @@ public class Grid<T> : IEnumerable<Grid<T>> {
         var sb = new StringBuilder();
         for (var y = 0; y < Data.Length; y++) {
             for (var x = 0; x < Data[0].Length; x++) {
-                sb.Append((Y == y && X == x) ? '#' : Data[y][x]);
+                sb.Append((Y == y && X == x) ? '@' : Data[y][x]);
             }
             sb.AppendLine();
         }

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using static System.Console;
 
-var day = DateTimeOffset.Now.AddHours(-6).Day - 1;
+var day = DateTimeOffset.Now.AddHours(-6).Day;
 var type = Type.GetType($"Day{day:00}")!;
 
 WriteLine($"Day: {day}");
