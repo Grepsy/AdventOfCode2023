@@ -1,7 +1,7 @@
-﻿public static partial class Day7 {
+﻿public static partial class Day07 {
     public static int Part1() {
         var map = "2233445566778899AEKDQCJBTA".Batch(2).ToDictionary(k => k[0], v => v[1]);
-        return (from line in File.ReadLines("day7.txt")
+        return (from line in File.ReadLines("day07.txt")
                 let split = line.Split(" ").ToArray()
                 let hand = new string(split[0].Select(x => map[x]).ToArray())
                 orderby HandValue(hand) descending, hand
@@ -10,7 +10,7 @@
 
     public static int Part2() {
         var map = "J02233445566778899AEKDQCTB".Batch(2).ToDictionary(k => k[0], v => v[1]);
-        return (from line in File.ReadLines("day7.txt")
+        return (from line in File.ReadLines("day07.txt")
                 let split = line.Split(" ").ToArray()
                 let hand = new string(split[0].Select(x => map[x]).ToArray())
                 orderby HandValue(hand) descending, hand

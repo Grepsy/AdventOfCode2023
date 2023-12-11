@@ -28,17 +28,17 @@ public class Grid<T> : IEnumerable<Grid<T>> {
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     public IEnumerator<Grid<T>> GetEnumerator() {
         var grid = this;
-        var list = from y in Enumerable.Range(0, grid.LengthY - 1)
-                   from x in Enumerable.Range(0, grid.LengthX - 1)
+        var list = from y in Enumerable.Range(0, grid.LengthY)
+                   from x in Enumerable.Range(0, grid.LengthX)
                    select grid[x, y];
         return list.GetEnumerator();
     }
 
     public IEnumerable<Grid<T>> CardinalNeighbors() => new[] {
-        this[-1, 0],
         this[0, -1],
         this[1, 0],
-        this[0, 1]
+        this[0, 1],
+        this[-1, 0],
     }.Where(x => x.InRange);
 
     public IEnumerable<Grid<T>> AdjacentNeighbors() => new[] {
@@ -52,11 +52,17 @@ public class Grid<T> : IEnumerable<Grid<T>> {
         this[1, 1]    // Bottom-right
     }.Where(x => x.InRange);
 
+    public string ToStringValue() => Value?.ToString() ?? "";
+
     public override string ToString() {
         var sb = new StringBuilder();
-        foreach (var row in Data) {
-            sb.AppendJoin('\0', row).AppendLine();
+        for (var y = 0; y < Data.Length; y++) {
+            for (var x = 0; x < Data[0].Length; x++) {
+                sb.Append((Y == y && X == x) ? '#' : Data[y][x]);
+            }
+            sb.AppendLine();
         }
+
         return sb.ToString();
     }
 }

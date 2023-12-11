@@ -1,9 +1,9 @@
-﻿public static partial class Day6 {
+﻿public static partial class Day06 {
     [GeneratedRegex(@"(\d+)")]
     private static partial Regex DigitsRegex();
 
     public static int Part1() {
-        var lines = File.ReadAllLines("day6.txt");
+        var lines = File.ReadAllLines("day06.txt");
         var times = DigitsRegex().Matches(lines[0]).Select(Parse.Int);
         var records = DigitsRegex().Matches(lines[1]).Select(Parse.Int);
         var races = times.Zip(records).ToArray();
@@ -18,7 +18,7 @@
     }
 
     public static int Part2() {
-        var lines = File.ReadAllLines("day6.txt");
+        var lines = File.ReadAllLines("day06.txt");
         var time = long.Parse(Regex.Replace(lines[0], @"\D+", ""));
         var record = long.Parse(Regex.Replace(lines[1], @"\D+", ""));
         var wins = from speed in Range.Long(1, time)

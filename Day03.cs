@@ -1,5 +1,5 @@
-﻿public static class Day3 {
-    public static IEnumerable<string> Lines = File.ReadAllLines("day3.txt");
+﻿public static class Day03 {
+    public static IEnumerable<string> Lines = File.ReadAllLines("day03.txt");
     public static MatchCollection[] Numbers = Lines.Select(x => Regex.Matches(x, @"(\d+)")).ToArray();
 
     public static int Part1() =>

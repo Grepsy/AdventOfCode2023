@@ -1,9 +1,9 @@
-﻿public static partial class Day5 {
+﻿public static partial class Day05 {
     [GeneratedRegex(@"(\d+)")]
     private static partial Regex DigitsRegex();
 
     public static long Part1() {
-        var sections = File.ReadAllText("day5.txt").Split("\n\n");
+        var sections = File.ReadAllText("day05.txt").Split("\n\n");
         var sectionMaps = (from section in sections[1..].Index()
                            from map in section.Value.Split("\n")[1..]
                            let p = map.Split(" ").Select(long.Parse).ToArray()
@@ -18,7 +18,7 @@
     }
 
     public static long Part2() {
-        var sections = File.ReadAllText("day5.txt").Split("\n\n");
+        var sections = File.ReadAllText("day05.txt").Split("\n\n");
         var sectionMaps = (from section in sections[1..]
                            let maps = from map in section.Split("\n")[1..]
                                       let p = map.Split(" ").Select(long.Parse).ToArray()

@@ -1,4 +1,4 @@
-﻿public static class Day9 {
+﻿public static class Day09 {
     public static long Part1() => Calculate((a, b) => b + a[^1]);
     public static long Part2() => Calculate((a, b) => a[0] - b);
 

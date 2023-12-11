@@ -1,6 +1,6 @@
-﻿public static class Day2 {
+﻿public static class Day02 {
     public static int Part1() =>
-        (from kv in File.ReadAllLines("day2.txt").Index()
+        (from kv in File.ReadAllLines("day02.txt").Index()
          let subsets = kv.Value.Split(";")
          let invalid =
              from subset in subsets
@@ -14,7 +14,7 @@
          select kv.Key + 1).Sum();
 
     public static int Part2() =>
-        (from line in File.ReadAllLines("day2.txt")
+        (from line in File.ReadAllLines("day02.txt")
          let maxs = from match in Regex.Matches(line, @"(\d+) (\w+)")
                     group match by match.Groups[2].Value into g
                     select g.Max(x => int.Parse(x.Groups[1].Value))

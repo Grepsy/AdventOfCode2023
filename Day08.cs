@@ -1,6 +1,6 @@
-﻿public static class Day8 {
+﻿public static class Day08 {
     public static int Part1() {
-        var lines = File.ReadLines("day8.txt").ToArray();
+        var lines = File.ReadLines("day08.txt").ToArray();
         var lr = lines[0].Select(x => x == 'L' ? 0 : 1).ToArray();
         var nodes = (from line in lines[2..]
                      let vals = new[] { line[7..10], line[12..15] }
@@ -16,7 +16,7 @@
     }
 
     public static long Part2() {
-        var lines = File.ReadLines("day8.txt").ToArray();
+        var lines = File.ReadLines("day08.txt").ToArray();
         var lr = lines[0].Select(x => x == 'L' ? 0 : 1).ToArray();
         var nodes = (from line in lines[2..]
                      let vals = new[] { line[7..10], line[12..15] }

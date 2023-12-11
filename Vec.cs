@@ -5,6 +5,8 @@ public readonly record struct Vec(int X, int Y) {
 
     [JsonIgnore] public int Length => Math.Abs(X) + Math.Abs(Y);
     [JsonIgnore] public Vec Norm => Length == 0 ? Zero : this / Length;
+    [JsonIgnore] public Vec CW => new(Y, -X);
+    [JsonIgnore] public Vec CCW => new(-Y, X);
 
     public int Distance(in Vec other) => (other - this).Length;
 
