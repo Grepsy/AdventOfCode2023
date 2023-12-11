@@ -1,7 +1,7 @@
 ﻿/// <summary>
 /// This one is dedicated to Robson for his love of RegEx
 /// </summary>
-public static partial class Day7_Regex {
+public static class Day7_Regex {
     public static int Part1() {
         var map = "2233445566778899AEKDQCJBTA".Batch(2).ToDictionary(k => k[0], v => v[1]);
         Regex[] types = [
