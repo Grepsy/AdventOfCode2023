@@ -1,14 +1,13 @@
-﻿public static class Day12 {
-    public static long Part1() {
-        var a = from line in File.ReadAllLines("day12.txt").Select(x => x.Split(" "))
-                let text = line[0]
-                let sizes = line[1].Split(',').Select(int.Parse).ToArray()
-                let log = $"{text} {string.Join(",", sizes)}".Log("\n")
-                let match = Match(text, sizes)
-                select match;
-
-        return 0;
-    }
+﻿public static partial class Day12 {
+    public static long Part1() =>
+        (from parts in File.ReadAllLines("day12.txt").Select(x => x.Split(" "))
+         let groups = parts[1].Split(',').Select(int.Parse)
+         let wildIndices = Wilds().Matches(parts[0]).Select(x => x.Index)
+         from powerset in wildIndices.Subsets()
+         let candidate = parts[0].Select((x, i) => powerset.Contains(i) ? '#' : x).AsString()
+         let candidateGroups = Springs().Matches(candidate).Select(x => x.Length)
+         where candidateGroups.SequenceEqual(groups)
+         select 1).Sum();
 
     public static string Match(string text, int[] sizes, int s = 0, int t = 0) {
         if (s >= sizes.Length || t > text.Length) {
@@ -31,5 +30,18 @@
         return Match(text, sizes, s + sx, t + tx);
     }
 
-    public static long Part2() => 0;
+    public static long Part2() =>
+        (from parts in File.ReadAllLines("day12.txt").Select(x => x.Split(" "))
+         let groups = parts[1].Split(',').Select(int.Parse)
+         let wildIndices = Wilds().Matches(parts[0]).Select(x => x.Index)
+         from powerset in wildIndices.Subsets()
+         let candidate = parts[0].Select((x, i) => powerset.Contains(i) ? '#' : x).AsString()
+         let candidateGroups = Springs().Matches(candidate).Select(x => x.Length)
+         where candidateGroups.SequenceEqual(groups)
+         select 1).Sum();
+
+    [GeneratedRegex(@"\?")]
+    private static partial Regex Wilds();
+    [GeneratedRegex(@"#+")]
+    private static partial Regex Springs();
 }

@@ -89,6 +89,8 @@ public static class EnumerableExtensions {
         b = list.ElementAt(1);
         c = list.ElementAt(2);
     }
+
+    public static string AsString(this IEnumerable<char> chars) => new(chars.ToArray());
 }
 
 public static class Range {
