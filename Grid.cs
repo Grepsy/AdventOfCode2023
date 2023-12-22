@@ -8,6 +8,7 @@ public class Grid<T> : IEnumerable<Grid<T>> {
     public int Y => Pos.Y;
     public int LengthY => Data.Length;
     public int LengthX => Data[0].Length;
+    public Vec Size => (LengthX, LengthY);
     public bool InRange => Pos.X >= 0 && Pos.X < LengthX && Pos.Y >= 0 && Pos.Y < LengthY;
     public T? Value {
         get => InRange ? Data[Pos.Y][Pos.X] : default;
@@ -56,9 +57,12 @@ public class Grid<T> : IEnumerable<Grid<T>> {
 
     public override string ToString() {
         var sb = new StringBuilder();
+        sb.AppendLine("    " + Enumerable.Range(0, LengthX).Select(x => x.ToString()[^1]).AsString());
         for (var y = 0; y < Data.Length; y++) {
+            sb.Append($"{y,3} ");
             for (var x = 0; x < Data[0].Length; x++) {
                 sb.Append((Y == y && X == x) ? '@' : Data[y][x]);
+                //sb.Append(Data[y][x]);
             }
             sb.AppendLine();
         }

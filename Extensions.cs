@@ -1,4 +1,6 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics;
+using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 
 public static class Parse {
@@ -88,6 +90,80 @@ public static class EnumerableExtensions {
         a = list.ElementAt(0);
         b = list.ElementAt(1);
         c = list.ElementAt(2);
+    }
+
+    public static IEnumerable<T> Speed<T>(this IEnumerable<T> seq) {
+        var sw = Stopwatch.StartNew();
+        var count = 0L;
+        foreach (var item in seq) {
+            yield return item;
+
+            if (count++ % 1e7 == 0) {
+                Console.WriteLine($"{count / 1e6:0}M {count / sw.Elapsed.TotalSeconds / 1e6:0.00}M/sec");
+                count = 0L;
+                sw.Restart();
+            }
+        }
+    }
+
+    public static IEnumerable<int> GroupSizes(this string value, char character) {
+        int i = 0, s = 0;
+        while (i < value.Length) {
+            if (value[i] == character) {
+                s++;
+            }
+            else if (s != 0) {
+                yield return s;
+                s = 0;
+            }
+
+            i++;
+        }
+
+        if (s != 0) {
+            yield return s;
+        }
+    }
+
+    public static string ReplaceIndices(this string value, IList<int> indices, char character) {
+        Span<char> span = stackalloc char[value.Length];
+        value.AsSpan().CopyTo(span);
+
+        for (var i = 0; i < indices.Count; i++) {
+            span[indices[i]] = character;
+        }
+
+        return new string(span);
+    }
+
+    public static bool IsSeqEqual<T>(this T[] a, T[] b) where T : IEqualityOperators<T, T, bool> {
+        if (a.Length != b.Length) {
+            return false;
+        }
+
+        for (var i = 0; i < a.Length; i++) {
+            if (a[i] != b[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static bool IsSeqEqual<T>(this T[][] a, T[][] b) where T : IEqualityOperators<T, T, bool> {
+        if (a.Length != b.Length || a[0].Length != b[0].Length) {
+            return false;
+        }
+
+        for (var y = 0; y < a.Length; y++) {
+            for (var x = 0; x < a[0].Length; x++) {
+                if (a[y][x] != b[y][x]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     public static string AsString(this IEnumerable<char> chars) => new(chars.ToArray());
